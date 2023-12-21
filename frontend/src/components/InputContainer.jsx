@@ -2,7 +2,7 @@ import React from 'react'
 
 const InputContainer = ({ label, bgColorClass, children }) => {
 	return (
-		<div className={`${bgColorClass}  pt-1  mb-2  p-2`}>
+		<div className={`${bgColorClass}  pt-1  p-2`}>
 			<label
 				className='capitalize inline-block  text-[#5f5f5f] text-[1rem]'
 				htmlFor={label}

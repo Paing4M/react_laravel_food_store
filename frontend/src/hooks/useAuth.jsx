@@ -7,11 +7,48 @@ const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
 	const [user, setUser] = useState(userService.getUser())
+	const [errors, setErrors] = useState(null)
 
 	const login = async (data) => {
-		setUser(data.user)
-		localStorage.setItem('user', JSON.stringify(data.user))
-		localStorage.setItem('token', JSON.stringify(data.token))
+		try {
+			const res = await userService.login(data)
+			if (res.status == 200) {
+				// clear the errors
+				setErrors(null)
+				setUser(res.user)
+				localStorage.setItem('user', JSON.stringify(res.user))
+				localStorage.setItem('token', JSON.stringify(res.token))
+			}
+		} catch (error) {
+			// validation err
+			if (error.response.status === 422) {
+				setErrors(error.response.data.errors)
+			}
+
+			// incorrect
+			if (error.response.status === 401) {
+				setErrors({ incorrect: error.response.data.message })
+			}
+		}
+	}
+
+	const register = async (data) => {
+		try {
+			const res = await userService.register(data)
+			console.log(res)
+			if (res.status == 200) {
+				// clear the errors
+				setErrors(null)
+				setUser(res.user)
+				localStorage.setItem('user', JSON.stringify(res.user))
+				localStorage.setItem('token', JSON.stringify(res.token))
+			}
+		} catch (error) {
+			// validation err
+			if (error.response.status === 422) {
+				setErrors(error.response.data.errors)
+			}
+		}
 	}
 
 	const logout = async () => {
@@ -26,7 +63,7 @@ export const AuthProvider = ({ children }) => {
 	}
 
 	return (
-		<AuthContext.Provider value={{ login, logout, user }}>
+		<AuthContext.Provider value={{ login, logout, register, user, errors }}>
 			{children}
 		</AuthContext.Provider>
 	)

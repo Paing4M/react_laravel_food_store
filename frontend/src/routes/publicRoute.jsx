@@ -4,6 +4,7 @@ import HomePage from '../pages/HomePage'
 import FoodDetailPage from '../pages/FoodDetailPage'
 import CartPage from '../pages/CartPage'
 import LoginPage from '../pages/LoginPage'
+import RegisterPage from '../pages/RegisterPage'
 
 export const router = createBrowserRouter([
 	{
@@ -54,5 +55,10 @@ export const router = createBrowserRouter([
 	{
 		path: '/login',
 		element: <LoginPage />,
+	},
+
+	{
+		path: '/register',
+		element: <RegisterPage />,
 	},
 ])

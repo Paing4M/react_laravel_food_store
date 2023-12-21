@@ -10,6 +10,11 @@ export const login = async (data) => {
 	return res.data
 }
 
+export const register = async (data) => {
+	const res = await axiosInstance.post('/api/register', data)
+	return res.data
+}
+
 export const logout = async () => {
 	const res = await axiosInstance.post('/api/logout')
 	localStorage.removeItem('user')

@@ -17,7 +17,7 @@ function Input({ label, type, value, onChange, onBlur, name, error }) {
 				onBlur={onBlur}
 				name={name}
 				className='rounded-lg
-          border border-1 border-[#e0e0e0] outline-none bg-white transition-all duration-150 ease-linear text-[1.1rem] w-full placeholder:text-[.9rem] px-2 py-1'
+          border border-1 border-[#e0e0e0] outline-none bg-white transition-all duration-150 ease-linear text-[1.1rem] w-full placeholder:text-[.9rem] px-2 py-1 focus:border-[#545252]'
 				placeholder={name + ' .....'}
 			/>
 			{error && (

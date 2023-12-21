@@ -9,20 +9,24 @@ import * as userService from '../services/UserService'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const LoginPage = () => {
-	const { user, login, errors } = useAuth()
+const RegisterPage = () => {
+	const { user, register, errors } = useAuth()
 	const [params] = useSearchParams()
 	const returnUrl = params.get('returnUrl')
 	const navigate = useNavigate()
 	const [inputFields, setInputFields] = useState({
+		name: '',
 		email: '',
 		password: '',
+		password_confirmation: '',
 	})
 
 	useEffect(() => {
 		if (!user) return
 		returnUrl ? navigate(returnUrl) : navigate('/')
 	}, [user])
+
+	console.log(user)
 
 	const handleChange = (e) => {
 		setInputFields({ ...inputFields, [e.target.name]: e.target.value })
@@ -31,16 +35,19 @@ const LoginPage = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		const data = {
+			name: inputFields.name,
 			email: inputFields.email,
 			password: inputFields.password,
+			password_confirmation: inputFields.password_confirmation,
 		}
-		await login(data)
+
+		await register(data)
 	}
 
 	return (
 		<div className='flex items-center justify-center h-screen '>
 			<div className='p-4 rounded-lg shadow-md w-full max-w-[450px] border border-gray-100'>
-				<Title title={'Login'} margin={'mb-4'} />
+				<Title title={'Register'} margin={'mb-4'} />
 
 				{errors?.incorrect && (
 					<div className='text-[.9rem] text-red-500 px-2'>
@@ -49,6 +56,15 @@ const LoginPage = () => {
 				)}
 
 				<form onSubmit={handleSubmit} noValidate>
+					<Input
+						value={inputFields.name}
+						onChange={handleChange}
+						label={'name'}
+						type={'name'}
+						name={'name'}
+						error={errors?.name}
+					/>
+
 					<Input
 						value={inputFields.email}
 						onChange={handleChange}
@@ -67,17 +83,24 @@ const LoginPage = () => {
 						onChange={handleChange}
 					/>
 
-					<Button type={'submit'} text='Login' width={'w-full'} />
+					<Input
+						value={inputFields.password_confirmation}
+						onChange={handleChange}
+						label={'password confirmation'}
+						type={'password'}
+						name={'password_confirmation'}
+						error={errors?.password_confirmation}
+					/>
+
+					<Button type={'submit'} text='Register' width={'w-full'} />
 
 					<p className='mt-2 text-center text-[.9rem] text-gray-500'>
-						Dont't have an account ?{' '}
+						Already register ?{' '}
 						<Link
 							className='text-black font-bold'
-							to={`/register${
-								returnUrl ? '?returnUrl=' + returnUrl : ''
-							}`}
+							to={`/login${returnUrl ? '?returnUrl=' + returnUrl : ''}`}
 						>
-							Register here
+							Login here
 						</Link>
 					</p>
 				</form>
@@ -86,4 +109,4 @@ const LoginPage = () => {
 	)
 }
 
-export default LoginPage
+export default RegisterPage

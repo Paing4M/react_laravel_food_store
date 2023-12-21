@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller {
+
   public function register(Request $request) {
     $data = $request->only(['email', 'name', 'password', 'password_confirmation']);
 
@@ -31,7 +32,8 @@ class AuthController extends Controller {
       $token = $user->createToken($validate['name'])->plainTextToken;
       return response()->json([
         'user' => $user,
-        'token' => $token
+        'token' => $token,
+        'status' => 200
       ]);
     }
   }
